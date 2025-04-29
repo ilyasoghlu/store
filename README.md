@@ -90,4 +90,84 @@ npx shadcn@latest add breadcrumb card checkbox dropdown-menu input label popover
 - products
 - single-product
 
+# Create Container component 
+
+This component contains sizes and alignments. Here will be 2 props 
+  - children   - Because component contains children components 
+  - className  - for CSS classes 
+
+
+# Blueprint - for Navbar component 
+
+importing of the necessary components to Navbar and create structure  
+
+import Container from '../global/Container'
+import Logo from './Logo'
+import NavSearch from './NavSearch'
+import CardButton from './CardButton'
+import DarkMode from './DarkMode'
+import LinksDropdown from './LinksDropdown'
+
+function Navbar() {
+  return (
+    <nav className='border-b'>
+      <Container className='flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap py-8 '>
+        <Logo />
+        <NavSearch />
+        <div className='flex gap-4 items-center'>
+          <CardButton />
+          <DarkMode />
+          <LinksDropdown />
+        </div>
+      </Container>
+    </nav>
+  )
+}
+
+then add Navbar component to the layout 
+
+# Install React Icons 
+
+- npm i react-icons
+
+# Create Logo Component
+# Create CardButton Component
+- this is an async function, because it will work with database
+
+# Create NavSearch Component  
+
+
+
+
+# Theme 
+
+[Theming Options] (https://ui.shadcn.com/docs/theming)
+[Themes] (https://ui.shadcn.com/themes)
+
+- replace css variables in globals.css (In my project something happens and project cant get colors)
+
+This proses devided into two parts  
+
+### Providers 
+
+- create app/providers.tsx 
+
+- this is a client side function that's why we must provide 'use client'
+- providers  need a children component 
+- then in the layout import provider (this provider will be in the body and all of the components will be the children components of the provider   )
+- in the HTML add suppressHydrationWarning - it prevents popping up of the errors 
+
+
+### Shadcn Dark Mode
+
+[Next.js Dark Mode] (https://ui.shadcn.com/docs/dark-mode/next)
+
+npm install next-themes
+
+- create app/theme-provider.tsx  (this is also client side function - )
+- then import ThemeProvider function into the providers.tsx (be careful because next also have ThemeProvider but we need function from the our theme-provider.tsx)
+
+### DarkMode Component
+
+also client side function  'use client' 578 6-06
 

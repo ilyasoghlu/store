@@ -1,8 +1,24 @@
 import React from 'react'
+import Container from '../global/Container'
+import Logo from './Logo'
+import NavSearch from './NavSearch'
+import CardButton from './CardButton'
+import DarkMode from './DarkMode'
+import LinksDropdown from './LinksDropdown'
 
 function Navbar() {
   return (
-    <div>Navbar</div>
+    <nav className='border-b'>
+      <Container className='flex flex-col sm:flex-row sm:justify-between sm:items-center flex-wrap py-8 '>
+        <Logo />
+        <NavSearch />
+        <div className='flex gap-4 items-center'>
+          <CardButton />
+          <DarkMode />
+          <LinksDropdown />
+        </div>
+      </Container>
+    </nav>
   )
 }
 

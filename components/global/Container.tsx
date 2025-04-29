@@ -1,8 +1,11 @@
 import React from 'react'
+import { cn } from '@/lib/utils';
 
-function Container() {
+function Container({children, className}:{children:React.ReactNode; className?:string} ) {
   return (
-    <div>Container</div>
+    <div className={cn('mx-auto max-w-6xl xl:-w-7xl px-8', className)}>
+      {children}
+    </div>
   )
 }
 
