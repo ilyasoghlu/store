@@ -176,7 +176,85 @@ also client side function  'use client'
 - create utils folder (This folder is also global as like as app folder )
 - create links file in utils folder  links.ts
 
-579 3:00
+0CWJ0BeaGplcS4PA
 
 
+# DB creating on the MangoDB
 
+- instal MangoDB locally https://www.mongodb.com/try/download/community
+- Alternatively can also install and run the MangoDB service (MangoDB Compass is also useful for visualize DB )
+- local connection string will be  mongodb://localhost:27017/my-database-name
+
+
+# Connecting Prisma& Client 
+
+- npm install prisma --save-dev
+- npm install @prisma/client
+
+# Initialize Prisma for MangoDB
+
+- npx prisma init --datasource-provider mongodb
+ this command will create 
+  - .env (set your connection string here )
+  - prisma/schema.prisma
+
+then update  .env
+
+- DATABASE_URL="mongodb://localhost:27017/my-database" # or Atlas URL
+
+# Define Data Madel  in prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id    String @id @default(auto()) @map("_id")
+  name  String
+  price Int
+}
+
+# Push to Database 
+
+- npx prisma db push   (This creates collections in MongoDB. No migrations are needed (MongoDB is schemaless).)
+
+
+# Create Prisma Helper  - lib/prisma.ts
+
+import { PrismaClient } from '@prisma/client'
+
+const globalForPrisma = globalThis as unknown as {
+  prisma: PrismaClient | undefined
+}
+
+export const prisma = globalForPrisma.prisma ?? new PrismaClient()
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+
+# Use in API Route or Server Component - pages/api/products.ts
+
+import type { NextApiRequest, NextApiResponse } from 'next'
+import { prisma } from '@/lib/prisma'
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  const products = await prisma.product.findMany()
+  res.status(200).json(products)
+}
+
+## Optional MangoDB Atlas for Production 
+If you prefer the cloud:
+
+Go to https://cloud.mongodb.com
+
+Create a cluster
+
+Whitelist your IP (or 0.0.0.0 for testing)
+
+Copy your connection string into .env
+
+DATABASE_URL="mongodb+srv://<user>:<pass>@cluster.mongodb.net/myDB?retryWrites=true&w=majority"
