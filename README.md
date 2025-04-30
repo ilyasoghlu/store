@@ -169,5 +169,14 @@ npm install next-themes
 
 ### DarkMode Component
 
-also client side function  'use client' 578 6-06
+also client side function  'use client' 
+
+# Links 
+
+- create utils folder (This folder is also global as like as app folder )
+- create links file in utils folder  links.ts
+
+579 3:00
+
+
 
