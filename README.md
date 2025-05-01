@@ -176,33 +176,37 @@ also client side function  'use client'
 - create utils folder (This folder is also global as like as app folder )
 - create links file in utils folder  links.ts
 
-0CWJ0BeaGplcS4PA
 
 
-# DB creating on the MangoDB
+mongodb+srv://ilyasoghlu:<db_password>@cluster0.drre1yp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+
+
+# DB creating on the MangoDB 
 
 - instal MangoDB locally https://www.mongodb.com/try/download/community
 - Alternatively can also install and run the MangoDB service (MangoDB Compass is also useful for visualize DB )
 - local connection string will be  mongodb://localhost:27017/my-database-name
 
 
-# Connecting Prisma& Client 
+# Connecting Prisma& Client (done)
 
 - npm install prisma --save-dev
 - npm install @prisma/client
 
-# Initialize Prisma for MangoDB
+
+# Initialize Prisma for MangoDB (done)
 
 - npx prisma init --datasource-provider mongodb
- this command will create 
+
+ this command will create the following two files in your project
   - .env (set your connection string here )
-  - prisma/schema.prisma
+  - prisma/schema.prisma 
 
-then update  .env
+then update  .env (create for the next time at that time I have no real DB URL )
 
-- DATABASE_URL="mongodb://localhost:27017/my-database" # or Atlas URL
+- DATABASE_URL="mongodb://localhost:27017/my-database" # or Atlas URL    (write here real project )
 
-# Define Data Madel  in prisma/schema.prisma
+# Define Data Model  in prisma/schema.prisma
 
 generator client {
   provider = "prisma-client-js"
@@ -224,7 +228,7 @@ model Product {
 - npx prisma db push   (This creates collections in MongoDB. No migrations are needed (MongoDB is schemaless).)
 
 
-# Create Prisma Helper  - lib/prisma.ts
+# Create Prisma Helper  - lib/prisma.ts (done)
 
 import { PrismaClient } from '@prisma/client'
 
@@ -258,3 +262,44 @@ Whitelist your IP (or 0.0.0.0 for testing)
 Copy your connection string into .env
 
 DATABASE_URL="mongodb+srv://<user>:<pass>@cluster.mongodb.net/myDB?retryWrites=true&w=majority"
+
+
+# Install prisma vs-code extension on my computer
+
+
+# Setup Instance 
+
+
+in development, the command next dev clears Node.js cache on run. This is turn initialize a new PrismaClient instance each time due to hot reloading that creates a connection 
+to the database. This can quickly exhaust the database connections as each PrismaClient instance holds its own connection pool.
+
+- create utils/db.ts 
+
+import { PrismaClient } from "@prisma/client";
+
+const prismaClientSingleton = () =>{
+    return new PrismaClient()
+}
+
+
+type PrismaClientSingleton = ReturnType<typeof prismaClientSingleton>
+
+const globalForPrisma = globalThis as unknown as {
+    prisma: PrismaClientSingleton | undefined;
+}
+
+const prisma = globalForPrisma.prisma ?? prismaClientSingleton();
+
+export default prisma 
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+# What is the ? 
+- npx prisma migrate dev --name init
+- npx prisma db push 
+
+npx prisma migrate dev --name init creates a new migration fro your database schema changes and applies i, while npx prisma db push directly updates 
+the database schema without creating a migration the context of databases, a migration is a set of operations that modify the database schema, helping it evolve over time while preserving existing data. 
+
+
+- npx prisma studio 
