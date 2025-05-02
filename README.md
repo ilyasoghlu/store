@@ -36,9 +36,9 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
 
 
-# app/globals.css -dən lazısız fayyalrı sil (Tailwind saxla )
+# app/globals.css delete everything in the global css besides of the Tailwind codes   
 
-# app/layout.tsx -də metadata dəyişdir 
+# app/layout.tsx change metadata in layout file 
 
 # Create Pages 
 
@@ -52,22 +52,23 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 # shadcn ui (ui.shadcn.com)
 
-- Bu bir UI komponentlər dəstidir, artıq bir çox komponentləri manual olaraq yaratmağa ehtiyyac qalmır sadəcə lazım olan  komponentlər proyektə əlavə edilir və lazımi yerdə import edilir 
+- shadcn is a UI library. Install it and it helps you not create components manually. After installation you can export files from UI folder  
 
-npmshadcn@latest init 
+- npm shadcn@latest init 
 
-daha sonra style seçilməlidir 
+then you must select style  
 
-node modullar install edildikdən sonra components qovluğunda Uİ componentlər install edilməlidir 
+- after the installation of the Node Modules in the UI folder you need create components 
 
 for ex:
-npx shadcn-ui@latest add button - komanda dəyişə bilər rəsmi saytdan götürmək lazımdır 
+npx shadcn-ui@latest add button   
 
-və shacn komponentlərin maraqlı cəhəti onları yaranan faylın içərisindən custom etmək mümkündür 
+- the interesting side of the shad cn components you can custom it in the file 
+- also you can save some components more than one but sometimes happens some errors
+- but be careful in case of spelling mistakes command is not working  
 
-və ya bir neçə komponenti eyni anda multi komponent kimi də yükləyə bilərik 
-
-npx shadcn@latest add breadcrumb card checkbox dropdown-menu input label popover select separator table textarea toast skleton carousel (spelling diqqət et səhv spelling olduqda paket yüklənmir )
+for ex:
+- npx shadcn@latest add breadcrumb card checkbox dropdown-menu input label popover select separator table textarea toast skleton carousel
 
 
 
@@ -146,7 +147,7 @@ then add Navbar component to the layout
 
 - replace css variables in globals.css (In my project something happens and project cant get colors)
 
-This proses devided into two parts  
+This proses divided into two parts  
 
 ### Providers 
 
@@ -158,7 +159,7 @@ This proses devided into two parts
 - in the HTML add suppressHydrationWarning - it prevents popping up of the errors 
 
 
-### Shadcn Dark Mode
+### Shad cn Dark Mode
 
 [Next.js Dark Mode] (https://ui.shadcn.com/docs/dark-mode/next)
 
@@ -218,7 +219,7 @@ datasource db {
 }
 
 model Product {
-  id    String @id @default(auto()) @map("_id")
+  id    String @id @default(auto()) @map("_id") @db.ObjectId (Without objectId it gives a big fat error )
   name  String
   price Int
 }
@@ -301,5 +302,34 @@ if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
 npx prisma migrate dev --name init creates a new migration fro your database schema changes and applies i, while npx prisma db push directly updates 
 the database schema without creating a migration the context of databases, a migration is a set of operations that modify the database schema, helping it evolve over time while preserving existing data. 
 
-
+# this command opens Prisma Studio 
 - npx prisma studio 
+
+# This command pushes the Data base (you need push this command after Studio)
+- npx prisma db push 
+
+
+# MangoDB to Prisma tutorial 
+https://www.youtube.com/watch?v=7t_cL2BQ5Ok&t=156s&ab_channel=MongoDB
+
+
+# Prisma CRUD 
+https://www.prisma.io/docs/consepts/components/prisma-client/crud
+
+
+# Product Model 02.05.2025
+
+`` prisma 
+
+model Product {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  price Int
+  company String
+  description String 
+  featured Boolean 
+  image String
+  createdAt DateTime @default(now())
+  updatedAt dateTime @updatedAt
+  clerkId string
+}
