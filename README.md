@@ -75,11 +75,22 @@ for ex:
 # Create Component folders and components
 
 - ui
+
 - card
+
 - form
+
 - global 
   - Container
+  - EmptyList
+  - SectionTitle
+  - LoadingContainer
+
 - home 
+  - FeaturedProducts
+  - Hero
+  - HeroCarousel
+
 - navbar 
   - CardButton
   - DarkMode
@@ -88,7 +99,14 @@ for ex:
   - Navbar
   - NavSearch
   - SignOutLink
+
 - products
+  - FavoriteToggleButton
+  - FavoriteToggleForm
+  - ProductsContainer
+  - ProductsGrid
+  - ProductsList
+
 - single-product
 
 # Create Container component 
@@ -333,3 +351,144 @@ model Product {
   updatedAt dateTime @updatedAt
   clerkId string
 }
+
+# Create a json file in prisma folder products.json (this is for seeding of the database)
+
+    [
+        {
+            "name": "Babara",
+            "company": "Wikido",
+            "description": "A great product",
+            "featured": true,
+            "image": "https://www.pexels.com/photo/woman-with-butterflies-clips-in-hair-18821587/",
+            "price": 3.79,
+            "createdAt": "2024-04-11T00:00:00Z",
+            "updatedAt": "2024-11-08T00:00:00Z",
+            "clerked": "Mathan"
+        },
+        {
+            "name": "Arido",
+            "company": "MWCO",
+            "description": "A great product",
+            "featured": true,
+            "image": "https://www.pexels.com/photo/woman-pouring-green-sauce-into-a-bowl-13726800/",
+            "price": 3.79,
+            "createdAt": "2024-04-11T00:00:00Z",
+            "updatedAt": "2024-11-08T00:00:00Z",
+            "clerked": "Mathan"
+        },
+        {
+            "name": "Laruc",
+            "company": "Wikido",
+            "description": "A great product",
+            "featured": false,
+            "image": "https://www.pexels.com/photo/elegant-facade-of-store-24024088/",
+            "price": 3.79,
+            "createdAt": "2024-04-11T00:00:00Z",
+            "updatedAt": "2024-11-08T00:00:00Z",
+            "clerked": "Mathan"
+        },
+        {
+            "name": "Ancu",
+            "company": "Wikido",
+            "description": "A great product",
+            "featured": true,
+            "image": "https://www.pexels.com/photo/modern-building-architecture-framing-clear-sky-31802459/",
+            "price": 3.79,
+            "createdAt": "2024-04-11T00:00:00Z",
+            "updatedAt": "2024-11-08T00:00:00Z",
+            "clerked": "Mathan"
+        },
+        {
+            "name": "Alruc",
+            "company": "Wikido",
+            "description": "A great product",
+            "featured": false,
+            "image": "https://www.pexels.com/photo/modern-streetlights-against-clear-blue-sky-31357180/",
+            "price": 3.79,
+            "createdAt": "2024-04-11T00:00:00Z",
+            "updatedAt": "2024-11-08T00:00:00Z",
+            "clerked": "Mathan"
+        },
+        {
+            "name": "Alruc",
+            "company": "Wikido",
+            "description": "A great product",
+            "featured": false,
+            "image": "https://www.pexels.com/photo/majestic-alpenglow-on-snowy-mountain-peak-31568335/",
+            "price": 3.79,
+            "createdAt": "2024-04-11T00:00:00Z",
+            "updatedAt": "2024-11-08T00:00:00Z",
+            "clerked": "Mathan"
+        },
+        {
+            "name": "Alruc",
+            "company": "Wikido",
+            "description": "A great product",
+            "featured": false,
+            "image": "https://www.pexels.com/photo/breakfast-on-a-table-16303089/",
+            "price": 3.79,
+            "createdAt": "2024-04-11T00:00:00Z",
+            "updatedAt": "2024-11-08T00:00:00Z",
+            "clerked": "Mathan"
+        },
+        {
+            "name": "Alruc",
+            "company": "Wikido",
+            "description": "A great product",
+            "featured": true,
+            "image": "https://www.pexels.com/photo/aerial-view-of-rural-road-in-austrian-countryside-31444049/",
+            "price": 3.79,
+            "createdAt": "2024-04-11T00:00:00Z",
+            "updatedAt": "2024-11-08T00:00:00Z",
+            "clerked": "Mathan"
+        }
+    ]
+
+
+# Create Seed File 
+
+- create in prisma/seed.js
+
+- check prisma studio (node prisma/seed)
+
+- if you try use decimal values for eg: 3.5 don't use Int instead of it use Float 
+- in schema.prisma if you will have an error about project name please add project name in .env file into the URL (marked with ***)
+(DATABASE_URL="mongodb+srv://ilyasoghlu:yg6uIV90GZgHnjyw@cluster0.drre1yp.mongodb.net/*******?retryWrites=true&w=majority&appName=Cluster0")
+
+
+# Create utils/actions.ts file 
+
+- this functional file contains of the functions for fetching the products (maybe will be other functions in the future) 
+
+    import db from '@/utils/db';
+
+
+    export const fetchFeaturedProducts = async() =>{
+        const products = await db.product.findMany({
+            where:{
+                featured:true,
+            },
+        })
+        return products
+    }
+
+    export const fetchAllProducts = () => {
+        return db.product.findMany({
+            orderBy:{
+                createdAt:'desc',
+            },
+        })
+    }
+
+# Create utils/format.ts
+
+- this functional file contains of the currency format function 
+
+      export const FormatCurrency = (amount: number | null) =>{
+          const value = amount || 0;
+          return new Intl.NumberFormat('en-US', {
+              style:'currency',
+              currency:'USD'
+          }).format(value)
+        } 
