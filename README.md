@@ -492,3 +492,5 @@ model Product {
               currency:'USD'
           }).format(value)
         } 
+
+        592 9:43
