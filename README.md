@@ -493,4 +493,7 @@ model Product {
           }).format(value)
         } 
 
-        592 9:43
+
+# Create content of the Hero component
+
+- use shadcn ui for creating Hero 
