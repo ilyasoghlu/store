@@ -494,6 +494,13 @@ model Product {
         } 
 
 
-# Create content of the Hero component
+# Create content of the Hero content 
 
-- use shadcn ui for creating Hero 
+- use shadcn ui for creating HeroCarousel
+   - Carousel, 
+   - CarouselContent, 
+   - CarouselItem,
+   - CarouselNext,
+   - CarouselPrevious 
+- create HeroCarousel content 
+  -  add images (local @/public/images/*.jpg)

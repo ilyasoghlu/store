@@ -14,7 +14,7 @@ function Hero() {
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus at facere eaque magnam quia! Tempora assumenda, ipsam rerum adipisci vel repudiandae.
         </p>
         <Button asChild size='lg' className='mt-10'>
-
+          <Link href='/products'>Our Products</Link>
         </Button>
       </div>
       <HeroCarousel />
