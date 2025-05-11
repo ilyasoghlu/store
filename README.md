@@ -504,3 +504,124 @@ model Product {
    - CarouselPrevious 
 - create HeroCarousel content 
   -  add images (local @/public/images/*.jpg)
+
+
+# Create About page content 
+
+- this page's content is static 
+
+# Create Loading 
+
+There two methods for creating the loader 
+
+1. Creating of the loading.tsx page in the app and in case of changing over the pages it will show 'Loading...'
+
+  - it will be situated in the app (as like as layout or home page) 
+  - this is a client side page
+
+        'use client'
+
+      function loading() {
+          return (
+              <div>loading...</div>
+          )
+      }
+
+export default loading
+
+2. Importing of the Suspense from react 
+
+  - import the Suspense into the home page 
+
+      - the following variant is so simple 
+
+        import { Suspense } from 'react'
+
+          function Home() {
+            return (
+              <>
+                <Hero />
+                <Suspense fallback={<div>loading...</div>}>
+                  <FeaturedProducts />
+                </Suspense>
+              </>
+            )
+          }
+
+          export default Home
+
+    - Let's import LoadingContainer from components  
+
+        import { Suspense } from 'react'
+
+          function Home() {
+            return (
+              <>
+                <Hero />
+                <Suspense fallback={<LoadingContainer />}>
+                  <FeaturedProducts />
+                </Suspense>
+              </>
+            )
+          }
+
+    - then add some magic here )))))
+
+        import React from 'react'
+          import { Card, CardContent } from '../ui/card'
+          import { Skeleton } from '../ui/skeleton'
+
+          function LoadingContainer() {
+            return (
+              <div className='pt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+                <LoadingProduct />
+                <LoadingProduct />
+                <LoadingProduct />
+              </div>
+            )
+          }
+
+          function LoadingProduct(){
+            return (
+              <Card>
+                <CardContent className='p-4'>
+                  <Skeleton className='h-48 w-full' />
+                  <Skeleton className='h-46 w-3/4  mt-4' />
+                  <Skeleton className='h-46 w-1/2  mt-4' />
+                </CardContent>
+              </Card>
+            )
+          }
+          export default LoadingContainer
+
+
+# Products  page (ProductsContainerPage)
+
+    ## Create loading.tsx file in the products folder 
+      - this is a user side function  
+
+    ## Create search parameters in the Product page 
+  
+
+      import ProductsContainer from '@/components/products/ProductsContainer'
+      import React from 'react'
+
+        function Products({searchParams}:{searchParams: {layout?:string, search?:string}}) {
+          const layout = searchParams.layout || 'grid'
+          const search = searchParams.search || ''
+          return (
+            <ProductsContainer layout={layout} search={search} />
+          )
+        }
+
+      export default Products
+
+    ## Create content of the ProductContainer Component 
+
+      596 6:00
+
+
+
+    ## Then create functionality in the action.ts file for search 
+
+

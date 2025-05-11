@@ -4,6 +4,7 @@ import { FormatCurrency } from "@/utils/format";
 import { Card, CardContent } from "../ui/card";
 import Link from "next/link";
 import Image from "next/image";
+import FavoriteToggleButton from "./FavoriteToggleButton";
 
 function ProductsGrid({ products }: { products: Product[] }) {
   return (
@@ -11,7 +12,7 @@ function ProductsGrid({ products }: { products: Product[] }) {
       {products.map((product) => {
         const { name, price, image } = product;
         const productId = product.id;
-        const dollarAmount = FormatCurrency(price);
+        const dollarsAmount = FormatCurrency(price);
         return (
           <article
             key={productId}
@@ -30,9 +31,16 @@ function ProductsGrid({ products }: { products: Product[] }) {
                       className="rounded w-full object-cover transform group-hover:scale-110 transition-transform duration-500 "
                     />
                   </div>
+                  <div className="mt-4 text-center">
+                    <h2 className="text-lg capitalize">{name}</h2>
+                    <p className="text-muted-foreground">{dollarsAmount}</p>
+                  </div>
                 </CardContent>
               </Card>
             </Link>
+            <div className="absolute top-7 right-7 z-5">
+              <FavoriteToggleButton productId={productId} />
+            </div>
           </article>
         );
       })}
