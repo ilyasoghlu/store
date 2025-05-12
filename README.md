@@ -617,11 +617,9 @@ export default loading
       export default Products
 
     ## Create content of the ProductContainer Component 
-
-      596 6:00
-
-
-
+      
+      - Create ProductList componet 
+    
     ## Then create functionality in the action.ts file for search 
 
 

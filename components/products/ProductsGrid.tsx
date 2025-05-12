@@ -1,6 +1,6 @@
 import React from "react";
 import { Product } from "@prisma/client";
-import { FormatCurrency } from "@/utils/format";
+import { formatCurrency } from "@/utils/format";
 import { Card, CardContent } from "../ui/card";
 import Link from "next/link";
 import Image from "next/image";
@@ -12,7 +12,7 @@ function ProductsGrid({ products }: { products: Product[] }) {
       {products.map((product) => {
         const { name, price, image } = product;
         const productId = product.id;
-        const dollarsAmount = FormatCurrency(price);
+        const dollarsAmount = formatCurrency(price);
         return (
           <article
             key={productId}
