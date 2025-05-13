@@ -28,9 +28,11 @@ async function ProductDetailsPage({params}:{params:{id:string}}) {
           />
         </div>
         {/* Product info col  */}
-        <div className='flex gap-x-8 items-center'>
-          <h1 className='capitalize text-3xl font-bold '>{name}</h1>
-          <FavoriteToggleButton productId={params.id} />
+        <div>
+          <div className='flex  gap-x-8 items-center'>
+            <h1 className='capitalize text-3xl font-bold '>{name}</h1>
+            <FavoriteToggleButton productId={params.id} />
+          </div>
           <ProductRating productId={params.id} />
           <h4 className='text-xl mt-2'>{company}</h4>
           <p className='text-md bg-muted inline-block rounded mt-3'>{dollarsAmount}</p>
