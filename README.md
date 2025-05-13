@@ -108,6 +108,9 @@ for ex:
   - ProductsList
 
 - single-product
+  - AddToCard
+  - BreadCrumbs
+  - ProductRating
 
 # Create Container component 
 
@@ -150,67 +153,62 @@ then add Navbar component to the layout
 - npm i react-icons
 
 # Create Logo Component
+
 # Create CardButton Component
-- this is an async function, because it will work with database
-
-# Create NavSearch Component  
-
-
+  - this is an async function, because it will work with database
 
 
 # Theme 
 
-[Theming Options] (https://ui.shadcn.com/docs/theming)
-[Themes] (https://ui.shadcn.com/themes)
+  [Theming Options] (https://ui.shadcn.com/docs/theming)
+  [Themes] (https://ui.shadcn.com/themes)
 
-- replace css variables in globals.css (In my project something happens and project cant get colors)
+  - replace css variables in globals.css (In my project something happens and project cant get colors)
 
-This proses divided into two parts  
+  This proses divided into two parts  
 
-### Providers 
+    ### Providers 
 
-- create app/providers.tsx 
+      - create app/providers.tsx 
 
-- this is a client side function that's why we must provide 'use client'
-- providers  need a children component 
-- then in the layout import provider (this provider will be in the body and all of the components will be the children components of the provider   )
-- in the HTML add suppressHydrationWarning - it prevents popping up of the errors 
+      - this is a client side function that's why we must provide 'use client'
+      - providers  need a children component 
+      - then in the layout import provider (this provider will be in the body and all of the components will be the children components of the provider   )
+      - in the HTML add suppressHydrationWarning - it prevents popping up of the errors 
 
 
-### Shad cn Dark Mode
+    ### Shad cn Dark Mode
 
-[Next.js Dark Mode] (https://ui.shadcn.com/docs/dark-mode/next)
+      [Next.js Dark Mode] (https://ui.shadcn.com/docs/dark-mode/next)
 
-npm install next-themes
+      npm install next-themes
 
-- create app/theme-provider.tsx  (this is also client side function - )
-- then import ThemeProvider function into the providers.tsx (be careful because next also have ThemeProvider but we need function from the our theme-provider.tsx)
+      - create app/theme-provider.tsx  (this is also client side function - )
+      - then import ThemeProvider function into the providers.tsx (be careful because next also have ThemeProvider but we need function from the our theme-provider.tsx)
 
-### DarkMode Component
+    ### DarkMode Component
 
-also client side function  'use client' 
+    also client side function  'use client' 
 
 # Links 
 
-- create utils folder (This folder is also global as like as app folder )
-- create links file in utils folder  links.ts
+  - create utils folder (This folder is also global as like as app folder )
+  - create links file in utils folder  links.ts
 
-
-
-mongodb+srv://ilyasoghlu:<db_password>@cluster0.drre1yp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+  mongodb+srv://ilyasoghlu:<db_password>@cluster0.drre1yp.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
 
 
 # DB creating on the MangoDB 
 
-- instal MangoDB locally https://www.mongodb.com/try/download/community
-- Alternatively can also install and run the MangoDB service (MangoDB Compass is also useful for visualize DB )
-- local connection string will be  mongodb://localhost:27017/my-database-name
+  - instal MangoDB locally https://www.mongodb.com/try/download/community
+  - Alternatively can also install and run the MangoDB service (MangoDB Compass is also useful for visualize DB )
+  - local connection string will be  mongodb://localhost:27017/my-database-name
 
 
 # Connecting Prisma& Client (done)
 
-- npm install prisma --save-dev
-- npm install @prisma/client
+  - npm install prisma --save-dev
+  - npm install @prisma/client
 
 
 # Initialize Prisma for MangoDB (done)
@@ -618,8 +616,25 @@ export default loading
 
     ## Create content of the ProductContainer Component 
       
-      - Create ProductList componet 
+      - Create ProductList component 
     
     ## Then create functionality in the action.ts file for search 
 
+# NavSearch 
 
+    This component will be a user side component 
+    'use client'
+
+    - install use-debounce
+      npm i use-debounce 
+      
+      ## Wrap NavSearch in Suspense 
+
+# Create a fetchSingleProduct function in the actions.ts
+
+  - import { redirect } from 'next/navigation';
+
+
+# Create Product Details Page 
+
+ - it will be a dynamic page (in products folder create a new folder [id])

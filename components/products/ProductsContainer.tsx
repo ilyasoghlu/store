@@ -9,7 +9,7 @@ import Link from 'next/link'
 
 
 async function ProductsContainer({layout, search}:{layout:string, search:string}) {
-  const products = await fetchAllProducts()
+  const products = await fetchAllProducts({search})
   const totalProducts = products.length
   const searchTerm = search? `&search=${search}`:''
   return (
