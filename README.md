@@ -764,3 +764,58 @@ Role-Based Access: You could further customize this middleware to check for user
 # Complete the SignOutLink Component
 # Complete The UseIcon Component
 # Complete The LinksDropDown Component
+
+# Create new links in the links.ts
+
+  - {href:'/admin/sales', label:'dashboard'},
+  - create adminLinks for dashboard menu (it is optional you can create it for every user, here only admin can add, delete or edit )
+
+
+# Admin Pages Structure 
+
+  - remove existing page.tsx from  the admin folder 
+
+Then create following structure for the admin folder 
+
+  - admin
+    - products (folder)
+      - [id] (This is a dynamic )
+        - edit/page.tsx 
+      - create
+        - page.tsx
+      - page.tsx
+    - sales (folder)
+      - page.tsx
+    - layout.tsx
+    - Sidebar.tsx
+
+# Create Sidebar 
+
+        function Sidebar() {
+          const pathname = usePathname();
+          return (
+              <aside>
+              {adminLinks.map((link) => {
+                  const isActivePage = pathname === link.href;
+                  const variant = isActivePage ? "secondary" : "ghost";
+                  return (
+                  <Button
+                      asChild
+                      className="w-full mb-2 capitalize font-normal"
+                      variant={variant}
+                  >
+                      <Link
+                      key={link.href}
+                      href={link.href}
+                      >
+                        {link.label}    
+                      </Link>
+                  </Button>
+                  );
+              })}
+              </aside>
+          );
+      }
+
+# Restrict Access to Admin Page
+  - Lesson 611 (in my case it is not work yet)
