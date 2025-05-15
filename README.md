@@ -42,13 +42,13 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 # Create Pages 
 
-- about
-- admin
-- card
-- favorites
-- orders
-- products 
-- reviews 
+  - about/about
+  - admin/admin
+  - card/card
+  - favorites/favorites
+  - orders/orders
+  - products/products 
+  - reviews/reviews 
 
 # shadcn ui (ui.shadcn.com)
 
