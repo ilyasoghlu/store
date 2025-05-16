@@ -79,6 +79,14 @@ for ex:
 - card
 
 - form
+  - FormContainer
+  - FormInput
+  - ImageInputContainer
+  - ImageInput
+  - PriceInput
+  - TextArea
+  - CheckboxInput
+  - Button
 
 - global 
   - Container
@@ -818,4 +826,25 @@ Then create following structure for the admin folder
       }
 
 # Restrict Access to Admin Page
-  - Lesson 611 (in my case it is not work yet)
+  <!-- - Dashboard menu hidden in Dropdown menu -The reason Clerk has limit  -->
+
+# Setup the Create Product Page - in admin page 
+
+  - create action for getting information from FormData 
+
+        const createProductAction = async (formData: FormData) =>{
+            'use server'
+            const name = formData.get('name') as string
+            console.log((name))
+        }
+
+  ## Faker Library 
+      (https://fakerjs.dev/guide/)
+
+  - instal faker library for showing fake products in input testing app 
+    - npm install @faker-js/faker
+  
+  ## FormInput Component 
+
+     - import Label Input and Button components from UI (components folder) - P.S. sometimes Label or other components does not install auto please be attentively and install manually from shadcn library 
+
