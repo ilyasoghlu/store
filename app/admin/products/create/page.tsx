@@ -1,17 +1,15 @@
 import React from "react";
 
-import { Button } from "@/components/ui/button";
 import { faker } from "@faker-js/faker";
 import FormInput from "@/components/form/FormInput";
 import PriceInput from "@/components/form/PriceInput";
 import ImageInput from "@/components/form/ImageInput";
 import TextArea from "@/components/form/TextArea";
+import FormContainer from "@/components/form/FormContainer";
+import { createProductAction } from "@/utils/actions";
+import CheckboxInput from "@/components/form/CheckboxInput";
+import { SubmitButton } from "@/components/form/Button";
 
-const createProductAction = async (formData: FormData) => {
-    "use server";
-    const name = formData.get("name") as string;
-    console.log(name);
-    };
 
 function CreateProductPage() {
     const name = faker.commerce.productName();
@@ -21,35 +19,19 @@ function CreateProductPage() {
         <section>
         <h1 className="text-2xl font-semibold mb-8 capitalize">create product</h1>
         <div className="border p-8 rounded-md">
-            <form action={createProductAction}>
-                <FormInput
-                    type="text"
-                    name="name"
-                    label="product name"
-                    defaultValue={name}
-                />
-                <FormInput
-                    type="text"
-                    name="name"
-                    label="company"
-                    defaultValue={company}
-                />
-                <PriceInput />
-                <ImageInput />
-                <TextArea
-                    type="text"
-                    name="name"
-                    label="product description"
-                    defaultValue={description}
-                />
-                <Button
-                    type="submit"
-                    size="lg"
-                    className="bg-cyan-600 text-white"
-                >
-                    Submit
-                </Button>
-            </form>
+            <FormContainer action={createProductAction}>
+                <div className="grid gap-4 md:grid-cols-2 my-4">
+                    <FormInput type="text" name='name' label="product name" defaultValue={name} />
+                    <FormInput type="text" name="company" label="comapny" defaultValue={company} />
+                    <PriceInput />
+                    <ImageInput />
+                </div>
+                <TextArea  name="description" labelText='product description' defaultValue={description} />
+                <div className="my-6">
+                    <CheckboxInput name="featured" label="featured" />
+                </div>
+                <SubmitButton text="create product" className="mt-8 bg-orange-500 hover:bg-orange-400 text-white" />
+            </FormContainer>
         </div>
         </section>
     );

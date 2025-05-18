@@ -844,7 +844,127 @@ Then create following structure for the admin folder
   - instal faker library for showing fake products in input testing app 
     - npm install @faker-js/faker
   
-  ## FormInput Component 
 
-     - import Label Input and Button components from UI (components folder) - P.S. sometimes Label or other components does not install auto please be attentively and install manually from shadcn library 
+# Create types file in the utils (utils/types.ts)
+  - here create function for Form components - because we can reuse components over and over thats why we need dynamic componets and just change types of them  
+
+# FormContainer Component 
+ - in this component will be used two logic
+  1. inputs - here will be information which stored in the children as well as Submit button and so 
+  2. action - this is the functional part of this logic for update/delete/edit of the product 
+
+# Create Product Action and Helper functions 
+- I will be in the actions file (here already we have this function but we add some functionality)
+
+  This is the simpe variant, without any functionality 
+
+    export const createProductAction = async(
+    prevState:any, 
+    formData: FormData
+    ):Promise<{message:string}> =>{
+    return {message: 'product created'}
+  }
+
+  Then 
+
+  const getAuthUser = async () =>{
+    const user = await currentUser()
+    if (!user) redirect ('/')
+        return user
+}
+const renderError  = (error: unknown) : {message:string} =>{
+    return {
+        message: error instanceof Error ? error.message : 'an error occured', 
+    }
+}
+
+  export const createProductAction = async(
+    prevState:any, 
+    formData: FormData
+    ):Promise<{message:string}> =>{
+        const user =await getAuthUser()
+        try {
+            const name = formData.get('name') as string;
+            const company = formData.get('comapny') as string;
+            const price = Number(formData.get('name') as string);
+            // !Temporary
+            const image = formData.get('image') as File;
+            const description  = formData.get('description') as string;
+            const featured = Boolean(formData.get('featured') as string);
+
+            await db.product.create({
+                data:{
+                    name,
+                    company,
+                    price,
+                    image:'/images/product-1.jpg',
+                    description,
+                    featured,
+                    clerkId:user.id,
+                }
+            })
+
+            return {message: 'product created'}
+        } catch (error) {
+            return renderError(error)
+        }
+}
+
+But you must accept that mostly we use a function nt one time and function must be oprimized that's why I will use Zod library for this function 
+
+# Zod library and product scheme 
+
+ - npm install zod 
+  - https://zod.dev/?id=basic-usage
+- setup utils/schema.ts
+
+
+# MangoDB Atlas image upload 
+
+  ✅ 1. Create a MongoDB Atlas Project
+      Go to MongoDB Atlas.
+
+      Sign in or sign up.
+
+      Create a new project (e.g., ImageUploader).
+
+      Set up a free shared cluster.
+
+  ✅ 2. Create a Database
+      In your cluster, go to "Browse Collections".
+
+      Click "Create Database".
+
+      Name it (e.g., fileStorage).
+
+      Create an initial collection (e.g., dummy, you’ll use GridFS soon).
+
+  ✅ 3. Enable App Services
+      Go to the “App Services” tab in your Atlas project.
+
+      Create a new App Service.
+
+      Choose the fileStorage database and cluster.
+
+      Enable Authentication (Anonymous or Email/Password for now).
+
+  ✅ 4. Use GridFS
+      GridFS is a special MongoDB feature that splits large files into chunks.
+
+      In Atlas, you can interact with GridFS collections:
+
+      Two collections are created:
+
+      fs.files
+
+      fs.chunks
+
+      But you’ll need to upload files using one of the following:
+
+  ✅ 5. Upload with Code (No Backend)
+      Use Next.js + MongoDB Node Driver or MongoDB Realm Functions:
+
+      Option A: Use MongoDB from Next.js (API Route)
+      Install dependencies:
+
 
