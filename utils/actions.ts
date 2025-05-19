@@ -3,7 +3,7 @@
 import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
-import { imageSchema, productSchema, validateWithZoodSchema } from './schemas';
+import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
 
 
 const getAuthUser = async () =>{
@@ -56,16 +56,20 @@ export const createProductAction = async(
     ):Promise<{message:string}> =>{
         const user =await getAuthUser()
         try {
+            const file = formData.get('image') as File;
             const rawData = Object.fromEntries(formData)
-            const file = formData.get('image') as File
-            const validatedFiels = validateWithZoodSchema(productSchema, rawData)
-            const validateFile = validateWithZoodSchema(imageSchema, {image:file})
+            const validatedFields = validateWithZodSchema(productSchema, rawData)
+
+            const validateFile = validateWithZodSchema(imageSchema, {image: file})
 
             await db.product.create({
                 data:{
-                    ...validatedFiels, image:'/images/product-3.jpg', clerkId:user.id,
+                    ...validatedFields, 
+                    image: '/images/product-3.jpg',
+                    clerkId:user.id, 
                 }
             })
+            
             return {message: 'product created'}
         } catch (error) {
             return renderError(error)

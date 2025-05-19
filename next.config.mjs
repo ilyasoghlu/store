@@ -2,12 +2,8 @@
 const nextConfig = {
   
   images: {
-    remotePatterns: [
-      {
-        protocol:'https',
-        hostname: 'www.pexels.com'
-      }
-    ],  // Add 'pexels.com' to the domains array
+    domains: ['localhost' ],
+    loader: 'default'
   },
 };
 

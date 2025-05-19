@@ -9,19 +9,43 @@ export const productSchema = z.object({
         message: 'name must be less than 100 characters',}
     ),
     company: z.string().min(4),
+    featured: z.coerce.boolean(),
     price:z.coerce.number().int().min(0,{
         message: 'price must be a psitive number'
     }),
     description: z.string().refine((description) => {
         const wordCount= description.split('').length;
-        return wordCount>=10&&wordCount<=1000;
+        return wordCount>=10 && wordCount <= 1000;
         },
         {
-            message: 'description must be between 10 and 100 words'
+            message: 'description must be between 10 and 1000 words'
         }),
         
-    featured: z.coerce.boolean(),
 
+})
+
+
+
+
+
+
+// !Special Error message
+export function validateWithZodSchema<T>
+(schema:ZodSchema<T>, 
+    data:unknown
+):T{
+    const result = schema.safeParse(data)
+    if(!result.success){
+        const errors = result.error.errors.map((error) =>error.message)
+        throw new Error(errors.join(',')) 
+    }
+    return result.data
+}
+
+
+// !Image Validation in the create product page
+export const imageSchema = z.object({
+    image:validateImageFile()
 })
 
 function validateImageFile(){
@@ -33,21 +57,3 @@ function validateImageFile(){
         return !file || acceptedFileTypes.some((type)=> file.type.startsWith(type))
     }, 'File must be an image')
 }
-
-
-// !Image Validation in the create product page
-export const imageSchema = z.object({
-    image:validateImageFile()
-})
-
-
-// !Special Error message
-export function validateWithZoodSchema<T>(schema:ZodSchema<T>, data:unknown):T{
-    const result = schema.safeParse(data)
-    if(!result.success){
-        const errors = validatedFiels.error.errors.map((error)=>error.message)
-        throw new Error(errors.join(','))
-    }
-    return result.data
-}
-

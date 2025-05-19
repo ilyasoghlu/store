@@ -22,7 +22,7 @@ async function ProductsList({products}: {products:Product[]} ) {
                 <CardContent className="p-8 gap-y-4 grid md:grid-cols-3" >
                   <div className="relative h-64 md:h-48 md:w-48 rounded">
                     <Image
-                      src={image}
+                      src={`/images/${image}`}
                       alt={name}
                       fill
                       sizes="(max-width:768px) 100vw, (max-width:1200px) 50vw, 33vw"
