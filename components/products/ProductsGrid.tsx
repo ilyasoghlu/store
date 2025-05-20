@@ -8,7 +8,7 @@ import FavoriteToggleButton from "./FavoriteToggleButton";
 
 function ProductsGrid({ products }: { products: Product[] }) {
   return (
-    <div className="pt-12 gap-4 md:grid-cols-2 lg:grid-cols-3">
+    <div className="pt-12 gap-4 grid md:grid-cols-2 lg:grid-cols-3">
       {products.map((product) => {
         const { name, price, image } = product;
         const productId = product.id;
@@ -19,9 +19,9 @@ function ProductsGrid({ products }: { products: Product[] }) {
             className="group relative"
           >
             <Link href={`/products/${productId}`}>
-              <Card className="transform group-hover:shadow-xl transition-shadow duration-500">
+              <Card className="transform group-hover:shadow-xl transition-shadow duration-500 ">
                 <CardContent className="p-4 ">
-                  <div className="relative h-64 md:h-48  rounded overflow-hidden">
+                  <div className="relative  h-64 md:h-48  rounded overflow-hidden">
                     <Image
                       src={`/images/${image}`}
                       alt={name}

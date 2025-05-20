@@ -910,7 +910,7 @@ const renderError  = (error: unknown) : {message:string} =>{
         }
 }
 
-But you must accept that mostly we use a function nt one time and function must be oprimized that's why I will use Zod library for this function 
+But you must accept that mostly we use a function nt one time and function must be optimized that's why I will use Zod library for this function 
 
 # Zod library and product scheme 
 

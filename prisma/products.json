@@ -81,7 +81,7 @@
             "name": "Alruc",
             "company": "Ksndhjdb",
             "description": "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quae et nobis rem eaque consectetur recusandae suscipit explicabo accusantium, maxime fugit! Voluptatum ad id doloremque exercitationem, aut quis adipisci magnam laborum vitae possimus enim quibusdam aliquam ut minima repudiandae assumenda quaerat fugit consequuntur delectus illo? Nisi.",
-            "featured": true,
+            "featured": false,
             "image": "hero5.jpg",
             "price": 33.79,
             "createdAt": "2024-04-11T00:00:00Z",
