@@ -86,7 +86,7 @@ for ex:
   - PriceInput
   - TextArea
   - CheckboxInput
-  - Button
+  - Button (for the next time please call this component as Buttons - because here will be some subfunctions as like mini buttons )
 
 - global 
   - Container
@@ -968,3 +968,23 @@ But you must accept that mostly we use a function nt one time and function must 
       Install dependencies:
 
 
+# Setup admin products page app/admin/products/page.tsx 
+  
+  - It will be async function
+  - Here will use table components from shadcn 
+        import {
+              Table,
+              TableBody,
+              TableCaption,
+              TableCell,
+              TableHead,
+              TableRow,
+        } from '@/components/ui/table' 
+
+  - import such functions and components 
+    
+      import EmptyList from '@/components/global/EmptyList'
+      import { fetchAdminProducts } from '@/utils/actions'
+      import Link from 'next/link'
+
+# Setup a function type in the Button component  @/components/form/Button (for the next time )

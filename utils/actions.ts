@@ -4,6 +4,7 @@ import db from '@/utils/db';
 import { currentUser } from '@clerk/nextjs/server';
 import { redirect } from 'next/navigation';
 import { imageSchema, productSchema, validateWithZodSchema } from './schemas';
+import { revalidatePath } from 'next/cache';
 
 
 const getAuthUser = async () =>{
@@ -11,6 +12,13 @@ const getAuthUser = async () =>{
     if (!user) redirect ('/')
         return user
 }
+// ! This is function is for just admin user will have access t this page (My products in admin user page ) this is an extra check 
+const getAdminUser = async () =>{
+    const user = getAuthUser()
+    if(user.id !== process.env.ADMIN_USER_ID) redirect('/');
+    return user
+}
+
 const renderError  = (error: unknown) : {message:string} =>{
     return {
         message: error instanceof Error ? error.message : 'an error occured', 
@@ -60,8 +68,8 @@ export const createProductAction = async(
             const rawData = Object.fromEntries(formData)
             const validatedFields = validateWithZodSchema(productSchema, rawData)
 
-            const validateFile = validateWithZodSchema(imageSchema, {image: file})
-
+            const validatedFile = validateWithZodSchema(imageSchema, {image: file})
+            console.log(validatedFile)
             await db.product.create({
                 data:{
                     ...validatedFields, 
@@ -74,4 +82,38 @@ export const createProductAction = async(
         } catch (error) {
             return renderError(error)
         }
+}
+
+// todo Here will be function for connecting  MandoDb to Project 621 lesson -just at that time I can not create this connection because I use Mango but tutor uses Supabase 
+
+
+export const fetchAdminProducts = async() => {
+    await getAdminUser()
+    const products = await db.product.findMany({
+        orderBy:{
+            createdAt: 'desc',
+        },
+    })
+    return products 
+}
+
+
+// ! this function will  add in the Button component 
+
+export const deleteProductAction = async(prevState: {productId:string}) =>{
+    const {productId} = prevState;
+    await getAdminUser();
+    try {
+        await db.product.delete({
+            where:{
+                id:productId,
+            },
+        })
+        revalidatePath('/admin/products')
+        return {
+            message: 'product removed'
+        }
+    } catch (error) {
+        return renderError(error)
+    }
 }
