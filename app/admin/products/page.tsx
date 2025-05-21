@@ -18,12 +18,11 @@ import { IconButton } from '@/components/form/Button'
 import FormContainer from '@/components/form/FormContainer'
 
 async function ProductsPage() {
-    const items = fetchAdminProducts()
+    const items = await  fetchAdminProducts()
     if(items.length === 0) return <EmptyList />
     return (
         <section >
             <Table>
-
                 <TableCaption className='capitalize'>
                     Total products: {items.length}
                 </TableCaption>
@@ -40,7 +39,7 @@ async function ProductsPage() {
                         items.map((item) =>{
                             const {id:productId, name, company, price} = item;
                             return (
-                                <TableRow>
+                                <TableRow key={productId}>
                                     <TableCell>
                                         <Link href={`/product/${productId}`} className='underline text-muted-foreground tracking-wide capitalize'>{name}</Link>
                                     </TableCell>
