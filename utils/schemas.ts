@@ -24,11 +24,6 @@ export const productSchema = z.object({
 
 })
 
-
-
-
-
-
 // !Special Error message
 export function validateWithZodSchema<T>
 (schema:ZodSchema<T>, 

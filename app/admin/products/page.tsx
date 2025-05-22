@@ -17,7 +17,7 @@ import {
 import { IconButton } from '@/components/form/Button'
 import FormContainer from '@/components/form/FormContainer'
 
-async function ProductsPage() {
+async function AdminProductsPage() {
     const items = await  fetchAdminProducts()
     if(items.length === 0) return <EmptyList />
     return (
@@ -54,7 +54,6 @@ async function ProductsPage() {
                                 </TableRow>
                             )
                         })
-
                     }
                     
                 </TableBody>
@@ -70,4 +69,4 @@ function DeleteProduct({productId}:{productId:string}){
         <IconButton actionType='delete' />
     </FormContainer>
 }
-export default ProductsPage
+export default AdminProductsPage

@@ -12,7 +12,8 @@ function Sidebar() {
             const isActivePage = pathname === link.href;
             const variant = isActivePage ? "secondary" : "ghost";
             return (
-            <Button
+            <Button 
+                key={link.href}
                 asChild
                 className="w-full mb-2 capitalize font-normal justify-start"
                 variant={variant}

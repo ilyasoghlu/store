@@ -370,7 +370,7 @@ model Product {
             "price": 3.79,
             "createdAt": "2024-04-11T00:00:00Z",
             "updatedAt": "2024-11-08T00:00:00Z",
-            "clerked": "Mathan"
+            "clerkId": "Mathan"
         },
         {
             "name": "Arido",
@@ -381,74 +381,9 @@ model Product {
             "price": 3.79,
             "createdAt": "2024-04-11T00:00:00Z",
             "updatedAt": "2024-11-08T00:00:00Z",
-            "clerked": "Mathan"
+            "clerkId": "Mathan"
         },
-        {
-            "name": "Laruc",
-            "company": "Wikido",
-            "description": "A great product",
-            "featured": false,
-            "image": "https://www.pexels.com/photo/elegant-facade-of-store-24024088/",
-            "price": 3.79,
-            "createdAt": "2024-04-11T00:00:00Z",
-            "updatedAt": "2024-11-08T00:00:00Z",
-            "clerked": "Mathan"
-        },
-        {
-            "name": "Ancu",
-            "company": "Wikido",
-            "description": "A great product",
-            "featured": true,
-            "image": "https://www.pexels.com/photo/modern-building-architecture-framing-clear-sky-31802459/",
-            "price": 3.79,
-            "createdAt": "2024-04-11T00:00:00Z",
-            "updatedAt": "2024-11-08T00:00:00Z",
-            "clerked": "Mathan"
-        },
-        {
-            "name": "Alruc",
-            "company": "Wikido",
-            "description": "A great product",
-            "featured": false,
-            "image": "https://www.pexels.com/photo/modern-streetlights-against-clear-blue-sky-31357180/",
-            "price": 3.79,
-            "createdAt": "2024-04-11T00:00:00Z",
-            "updatedAt": "2024-11-08T00:00:00Z",
-            "clerked": "Mathan"
-        },
-        {
-            "name": "Alruc",
-            "company": "Wikido",
-            "description": "A great product",
-            "featured": false,
-            "image": "https://www.pexels.com/photo/majestic-alpenglow-on-snowy-mountain-peak-31568335/",
-            "price": 3.79,
-            "createdAt": "2024-04-11T00:00:00Z",
-            "updatedAt": "2024-11-08T00:00:00Z",
-            "clerked": "Mathan"
-        },
-        {
-            "name": "Alruc",
-            "company": "Wikido",
-            "description": "A great product",
-            "featured": false,
-            "image": "https://www.pexels.com/photo/breakfast-on-a-table-16303089/",
-            "price": 3.79,
-            "createdAt": "2024-04-11T00:00:00Z",
-            "updatedAt": "2024-11-08T00:00:00Z",
-            "clerked": "Mathan"
-        },
-        {
-            "name": "Alruc",
-            "company": "Wikido",
-            "description": "A great product",
-            "featured": true,
-            "image": "https://www.pexels.com/photo/aerial-view-of-rural-road-in-austrian-countryside-31444049/",
-            "price": 3.79,
-            "createdAt": "2024-04-11T00:00:00Z",
-            "updatedAt": "2024-11-08T00:00:00Z",
-            "clerked": "Mathan"
-        }
+        ... Here you can add more products ...
     ]
 
 
@@ -988,3 +923,6 @@ But you must accept that mostly we use a function nt one time and function must 
       import Link from 'next/link'
 
 # Setup a function type in the Button component  @/components/form/Button (for the next time )
+
+# Setup Edit Product Page in admin 
+  
