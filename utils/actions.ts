@@ -54,7 +54,10 @@ export const fetchSingleProduct = async (productId: string) => {
   return product;
 };
 
-export const createProductAction = async (prevState: any, formData: FormData): Promise<{ message: string }> => {
+export const createProductAction = async (
+  prevState: any, 
+  formData: FormData
+): Promise<{ message: string }> => {
   const user = await getAuthUser();
   try {
     const file = formData.get("image") as File;
@@ -125,10 +128,72 @@ export const fetchAdminProductDetails = async (productId: string) => {
 export const updateProductAction = async (
     prevState: any, 
     formData: FormData) => {
-  return { message: "Product updated successfully" };
+      await getAdminUser()
+      try {
+        const productId = formData.get('id') as string
+        const rawData =Object.fromEntries(formData)
+        const validatedFields = validateWithZodSchema(productSchema, rawData)
+        await db.product.update({
+          where:{
+            id:productId
+          },
+          data:{
+            ...validatedFields,
+          }
+        });
+        revalidatePath(`/admin/products/${productId}/edit`)
+        return { message: "Product updated successfully" };
+      } catch (error) {
+        return renderError(error)
+      }
 };
+
 export const updateProductImageAction = async (
     prevState: any, 
-    formData: FormData) => {
-  return { message: "Product Image updated successfully" };
+    formData: FormData
+  ) => {
+    await getAuthUser()
+    try {
+      const image = formData.get('image') as File
+      const productId = formData.get('id') as string
+      const oldImageUrl = formData.get('url') as string
+
+      const validatedFile =validateWithZodSchema(imageSchema, {image})
+      // !the  following lines come from Mango and I did not create yet, that's why error is normal  
+      const fullPath  = await uploadImage(validatedFile.image)
+      await deleteImage(oldImageUrl)
+      await db.product.update({
+        where:{
+          id:productId,
+        },
+        data:{
+          image: fullPath,
+        },
+      });
+        revalidatePath(`/admin/products/${productId}/edit`)
+        return { message: "Product Image updated successfully" };
+    } catch (error) {
+      return renderError(error)
+    }
+
 };
+
+
+export const toggleFavoriteAction = async ()=>{
+  return{ message: 'toggle favorite action' }
+}
+
+
+export const fetchFavoriteId = async({productId}:{productId:string}) =>{
+  const user = await getAuthUser()
+  const favorite = await db.favorite.findFirst({
+    where:{
+      productId,
+      clerkId:user.id,
+    },
+    select:{
+      id:true,
+    },
+  })
+  return favorite?.id || null;
+}

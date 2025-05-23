@@ -93,6 +93,7 @@ for ex:
   - EmptyList
   - SectionTitle
   - LoadingContainer
+  - LoadingTable
 
 - home 
   - FeaturedProducts
@@ -925,4 +926,77 @@ But you must accept that mostly we use a function nt one time and function must 
 # Setup a function type in the Button component  @/components/form/Button (for the next time )
 
 # Setup Edit Product Page in admin 
+
+# Setup UpdateImageContainer Component 
+  - it will be a user side component (use client)
+
+
+# Favorite Model ()
+  prisma 
+
+      model Product{
+        favorites Favorite[]
+      }
+
+
+I have changed this model for my case, but my variant also  has some mistakes 
+
+      model Favorite {
+        id String @id default(uuid())
+        clerkId String
+        product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+        productId String
+        createAt DataTime @default(now())
+        updateAt DataTime @updateAt
+      }
+
+      then 
+
+      npx prisma db push (it gives error in my case )
+
+
+  # Create button models in Button component @/components/form/Button.tsx
   
+    - CardSignInButton 
+
+          export const CardSignInButton = () =>{
+              return (
+              <SignInButton mode="modal">
+                <Button 
+                  type='button' 
+                  size='icon' 
+                  variant='outline' 
+                  className="p-2 cursor-pointer" 
+                  asChild
+                >
+                  <FaRegHeart />
+                </Button>
+              </SignInButton>)
+          }
+
+    - CardSubmitButton 
+
+        export const CardSubmitButton = ({isFavorite}: {isFavorite:boolean} ) => {
+            const {pending} = useFormStatus()
+            return(
+              <Button 
+                type="submit" 
+                size='icon' 
+                variant='outline' 
+                className="p-2 cursor-pointer"
+              >
+                { pending?(
+                  <ReLoadIcon className='animate-spin' />
+                  ) : (
+                    isFavorite?<FaHeart/> :<FaRegHeart/>
+                  )}
+              </Button>
+            )
+          }
+
+
+  # Create functions in action file 
+
+      export const toggleFavoriteAction = async ()=>{
+              return{ message: 'toggle favorite action' }
+            }
