@@ -121,6 +121,14 @@ for ex:
   - BreadCrumbs
   - ProductRating
 
+- reviews
+  - RaitingInput
+  - Comment
+  - ProductReviews
+  - Rating 
+  - SubmitReview
+  - ReviewCard
+
 # Create Container component 
 
 This component contains sizes and alignments. Here will be 2 props 
@@ -1000,3 +1008,54 @@ I have changed this model for my case, but my variant also  has some mistakes
       export const toggleFavoriteAction = async ()=>{
               return{ message: 'toggle favorite action' }
             }
+
+  # Complete Favorites page 
+
+  # React Share Library 
+    - First of all for working this functionality you must deploy the project (This is important!) 
+    - then instal node modules 
+      - npm i react-share 
+    
+    - create  NEXT_PUBLIC_WEBSITE_URL in the .env file 
+    - get url from netlify or other platform where you deployed your project 
+
+    - ad create share button componet 
+
+    - Important - Don't forget import ShareButton in the Product page (product/[id]/page.tsx) ! 
+  
+
+  # Review Model (prisma/schema.prisma.ts)
+   -  add review to product model 
+      model Product {
+
+        ...
+        reviews Review []
+      }
+  - create Review model 
+
+    model Review {
+      id String @id @default(auto()) @map("_id") @db.ObjectId
+      clerkId String
+      rating Int
+      comment String
+      authorName String
+      authorImageUrl String
+      createdAt DateTime @default(now())
+      updateAt DateTime @updatedAt
+        product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+      productId String
+    }
+    then 
+    - stop the server 
+    - nxp prisma db push (it will change database and update )
+    - restart the server 
+
+    then 
+    - setup functionality in the actions  
+
+ # create Submit Review Component and Setup it 
+  - it will be user side component  ( use client )
+
+
+# Create Review Action 
+  - schemas.ts

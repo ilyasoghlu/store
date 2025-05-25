@@ -3,7 +3,7 @@
 import db from "@/utils/db";
 import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { imageSchema, productSchema, validateWithZodSchema } from "./schemas";
+import { imageSchema, productSchema, reviewSchema, validateWithZodSchema } from "./schemas";
 import { revalidatePath } from "next/cache";
 
 const getAuthUser = async () => {
@@ -11,7 +11,7 @@ const getAuthUser = async () => {
   if (!user) redirect("/");
   return user;
 };
-// ! This is function is for just admin user will have access t this page (My products in admin user page ) this is an extra check
+// ! This is function is for just admin user will have access to this page (My products in admin user page ) this is an extra check
 const getAdminUser = async () => {
   const user = getAuthUser();
   if (user.id !== process.env.ADMIN_USER_ID) redirect("/");
@@ -179,8 +179,35 @@ export const updateProductImageAction = async (
 };
 
 
-export const toggleFavoriteAction = async ()=>{
-  return{ message: 'toggle favorite action' }
+export const toggleFavoriteAction = async (prevState: {
+  productId:string;
+  favoriteId:string |null;
+  pathname:string;
+})=>{
+  const user = await getAuthUser()
+  const {productId, favoriteId, pathname} = prevState;
+
+  try {
+    if(favoriteId){
+      await db.favorite.delete({
+        where: {
+          id:favoriteId
+        },
+      });
+    }else{
+      await db.favorite.create({
+        data:{
+          productId,
+          clerkId:user.id,
+        }
+      })
+    }
+    revalidatePath(pathname)
+    return{ message: favoriteId?'removed from faves':'added to faves' }
+  } catch (error) {
+    return renderError(error)
+  }
+
 }
 
 
@@ -197,3 +224,56 @@ export const fetchFavoriteId = async({productId}:{productId:string}) =>{
   })
   return favorite?.id || null;
 }
+
+export const fetchUserFavorites = async() =>{
+  const user = await getAuthUser()
+  const favorites = await  db.favorite.findMany({
+    where:{
+      clerkId:user.id,
+    },
+    include:{
+      product:true,
+    }
+  })
+  return favorites;
+}
+
+
+// ! Review functionality 
+
+export const createReviewAction = async (
+  prevState: any,
+  formData:FormData
+) =>{
+  const user = await getAuthUser()
+  try {
+      const rawData = Object.fromEntries(formData)
+      const validatedFields = validateWithZodSchema(reviewSchema, rawData)
+      await db.review.create({
+        data: {
+          ...validatedFields,
+          clerkId: user.id
+        },
+      })
+      revalidatePath(`/product/${validatedFields.productId}`)
+    return {message: 'rview subitted successfully'}
+  } catch (error) {
+    return renderError(error)
+  }
+}
+
+export const fetchProductReviews = async (productId : string) =>{
+  const reviews = await db.review.findMany({
+    where:{
+      productId,
+    },
+    orderBy: {
+      createdAt:'desc',
+    }
+  })
+  return reviews
+}
+export const fetchProductReviewsByUser = async () =>{}
+export const deleteReviewAction = async () =>{}
+export const findExisingReview = async () =>{}
+export const fetchProductRating = async () =>{}

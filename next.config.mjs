@@ -5,6 +5,7 @@ const nextConfig = {
     domains: ['localhost' ],
     loader: 'default'
   },
+  
 };
 
 
