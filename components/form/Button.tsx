@@ -4,9 +4,9 @@ import { Button } from "../ui/button"
 import { cn } from "@/lib/utils"
 import { SignInButton } from "@clerk/nextjs"
 import { FaRegHeart, FaHeart } from "react-icons/fa"
-import { LuTrash2, LuPenSquare } from "react-icons/lu"
+import { LuTrash2, LuPen } from "react-icons/lu"
 import { useFormState, useFormStatus } from "react-dom"
-import { ReLoadIcon} from '@radix-ui/react-icons'
+import { IoReload } from "react-icons/io5";
 
 
 
@@ -24,7 +24,7 @@ export function SubmitButton({className='', text='submit', size='lg'}: SubmitBut
   return (
     <Button type="submit" disabled={pending} className={cn('capitalize', className)} size={size}>
       {pending ? <>
-      <ReLoadIcon className= 'mr-2 h-4 w-4 animate-spin'/>
+      <IoReload className= 'mr-2 h-4 w-4 animate-spin' />
       Please wait...
       </> : text}
     </Button>
@@ -41,7 +41,7 @@ export const IconButton = ({actionType}: {actionType:actionType}) =>{
   const renderIcon = () =>{
     switch(actionType){
       case 'edit':
-        return<LuPenSquare />
+        return<LuPen />
       case 'delete':
         return<LuTrash2 />
       default:
@@ -51,7 +51,7 @@ export const IconButton = ({actionType}: {actionType:actionType}) =>{
   }
 
   return <Button type='submit' size='icon' variant='link' className="p-2 cursor-pointer">
-    {pending?<ReLoadIcon className='animate-spin' />: renderIcon() }
+    {pending?<IoReload className='animate-spin' />: renderIcon() }
   </Button> 
 }
 
@@ -81,7 +81,7 @@ export const CardSubmitButton = ({isFavorite}: {isFavorite:boolean} ) => {
       className="p-2 cursor-pointer"
     >
       { pending?(
-        <ReLoadIcon className='animate-spin' />
+        <IoReload className='animate-spin' />
         ) : (
           isFavorite?<FaHeart/> :<FaRegHeart/>
         )}

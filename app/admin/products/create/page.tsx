@@ -22,7 +22,7 @@ function CreateProductPage() {
             <FormContainer action={createProductAction}>
                 <div className="grid gap-4 md:grid-cols-2 my-4">
                     <FormInput type="text" name='name' label="product name" defaultValue={name} />
-                    <FormInput type="text" name="company" label="comapny" defaultValue={company} />
+                    <FormInput type="text" name="company" label="company" defaultValue={company} />
                     <PriceInput />
                     <ImageInput />
                 </div>

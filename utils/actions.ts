@@ -13,14 +13,14 @@ const getAuthUser = async () => {
 };
 // ! This is function is for just admin user will have access to this page (My products in admin user page ) this is an extra check
 const getAdminUser = async () => {
-  const user = getAuthUser();
+  const user = await getAuthUser();
   if (user.id !== process.env.ADMIN_USER_ID) redirect("/");
   return user;
 };
 
 const renderError = (error: unknown): { message: string } => {
   return {
-    message: error instanceof Error ? error.message : "an error occured",
+    message: error instanceof Error ? error.message : "an error occurred",
   };
 };
 
@@ -55,7 +55,7 @@ export const fetchSingleProduct = async (productId: string) => {
 };
 
 export const createProductAction = async (
-  prevState: any, 
+  prevState: unknown, 
   formData: FormData
 ): Promise<{ message: string }> => {
   const user = await getAuthUser();
@@ -126,7 +126,7 @@ export const fetchAdminProductDetails = async (productId: string) => {
 };
 
 export const updateProductAction = async (
-    prevState: any, 
+    prevState: unknown, 
     formData: FormData) => {
       await getAdminUser()
       try {
@@ -149,7 +149,7 @@ export const updateProductAction = async (
 };
 
 export const updateProductImageAction = async (
-    prevState: any, 
+    prevState: unknown, 
     formData: FormData
   ) => {
     await getAuthUser()
@@ -242,7 +242,7 @@ export const fetchUserFavorites = async() =>{
 // ! Review functionality 
 
 export const createReviewAction = async (
-  prevState: any,
+  prevState: unknown,
   formData:FormData
 ) =>{
   const user = await getAuthUser()
@@ -256,7 +256,7 @@ export const createReviewAction = async (
         },
       })
       revalidatePath(`/product/${validatedFields.productId}`)
-    return {message: 'rview subitted successfully'}
+    return {message: 'review submitted successfully'}
   } catch (error) {
     return renderError(error)
   }
@@ -273,7 +273,72 @@ export const fetchProductReviews = async (productId : string) =>{
   })
   return reviews
 }
-export const fetchProductReviewsByUser = async () =>{}
-export const deleteReviewAction = async () =>{}
-export const findExisingReview = async () =>{}
-export const fetchProductRating = async () =>{}
+
+export const fetchProductRating = async (productId:string) =>{
+  const result = await db.review.groupBy({
+    by:['productId'],
+    _avg:{
+      rating:true,
+    },
+    _count:{
+      rating:true,
+    },
+    where: {productId},
+  });
+  return {
+    rating: result[0]?._avg.rating?.toFixed(1) ?? 0,
+    count:result[0]?._count?.rating ?? 0,
+  }
+}
+
+
+
+export const fetchProductReviewsByUser = async () =>{
+  const user = await getAuthUser()
+  const reviews = await db.review.findMany({
+    where:{
+      clerkId:user.id
+    },
+    select:{
+      id:true,
+      comment: true,
+      product: {
+        select:{
+          image:true,
+          name:true,
+        },
+      },
+    },
+  });
+  return reviews
+}
+
+// ! delete reviews from page 
+
+export const deleteReviewAction = async (prevState: {reviewId:string} ) =>{
+  const {reviewId} = prevState
+  const user = await getAuthUser()
+  try {
+    await db.review.delete({
+      where:{
+        id: reviewId,
+        clerkId: user.id,
+
+      },
+
+    })
+    revalidatePath('/reviews')
+    return {message: 'review deleted successfully'}
+  } catch (error) {
+    return renderError(error)
+  }
+}
+export const findExistingReview = async (userId:string, productId:string) =>{
+  return db.review.findFirst({
+    where: {
+      clerkId:userId,
+      productId,
+    },
+  })
+}
+

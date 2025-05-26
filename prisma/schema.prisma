@@ -50,3 +50,18 @@ model Review {
     product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 }
+
+
+model Card {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  clerkId String
+  cardItems CardItem[]
+  numItemsInCard Int @default(0)
+  cardTotal Int @default(0)
+  shipping Int @default(5)
+  tax Int @default(0)
+  taxRate Float @default(0.1)
+  orderTotal Int @default(0)
+  createdAt DateTime @default(now())
+  updateAt DateTime @updatedAt
+}
