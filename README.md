@@ -120,6 +120,8 @@ for ex:
   - AddToCard
   - BreadCrumbs
   - ProductRating
+  - SelectProductAmount
+  - ShareButton 
 
 - reviews
   - RaitingInput
@@ -1066,4 +1068,26 @@ I have changed this model for my case, but my variant also  has some mistakes
   - this function will be in the actions 
     - findExistingReview
     - it is an async function 
+    ## Create following functions for Card Menu 
+    - export const fetchCardItems = async () =>{}
+
+    - const fetchProduct = async () =>{}
     
+    - export const fetchOrCreateCard = async () =>{}
+    
+    - const updateOrCreateCardItem = async () =>{}
+    
+    - export const updateCard = async () =>{}
+    
+    <!-- This function is a user side function  -->
+    - export const addToCardAction = async () =>{}
+    
+    - export const removeCardUtemAction = async () =>{}
+    
+    - export const updateCardItemAction = async () =>{}
+
+
+
+# Note: After creating the models - clear terminal, stop the server and push following command  
+  - npx prisma db push 
+  - this act for updating of the Environment variables 

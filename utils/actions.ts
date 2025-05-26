@@ -1,10 +1,16 @@
 "use server";
 
 import db from "@/utils/db";
-import { currentUser } from "@clerk/nextjs/server";
+import { currentUser, auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
-import { imageSchema, productSchema, reviewSchema, validateWithZodSchema } from "./schemas";
+import { 
+      imageSchema, 
+      productSchema, 
+      reviewSchema, 
+      validateWithZodSchema 
+    } from "./schemas";
 import { revalidatePath } from "next/cache";
+// import {deleteImage, uploadImage } from './mango' (I must setup this functionality ) 
 
 const getAuthUser = async () => {
   const user = await currentUser();
@@ -342,3 +348,35 @@ export const findExistingReview = async (userId:string, productId:string) =>{
   })
 }
 
+// ! Card menu functionality 
+
+// ! use fetchCardItems function in the CardButton file instead of the temp data navbar/CardButton.tsx
+export const fetchCardItems = async () =>{
+  const {userId} = await auth()
+  const card = await db.card.findFirst({
+    where:{
+      clerkId:userId?? '',
+    },
+    select:{
+      numItemsInCard:true
+    }
+  })
+  return card?.numItemsInCard || 0
+}
+
+const fetchProduct = async () =>{}
+
+export const fetchOrCreateCard = async () =>{}
+ 
+const updateOrCreateCardItem = async () =>{}
+
+export const updateCard = async () =>{}
+
+// ! this function will call from /single-product/AddToCard.tsx file 
+export const addToCardAction = async (prevState:any, formData:FormData) =>{
+  return {message:'product added to card '}
+}
+
+export const removeCardUtemAction = async () =>{}
+
+export const updateCardItemAction = async () =>{}
