@@ -1,3 +1,4 @@
+import { fetchOrCreateCard } from './actions';
 "use server";
 
 import db from "@/utils/db";
@@ -10,6 +11,7 @@ import {
       validateWithZodSchema 
     } from "./schemas";
 import { revalidatePath } from "next/cache";
+import { boolean } from 'zod';
 // import {deleteImage, uploadImage } from './mango' (I must setup this functionality ) 
 
 const getAuthUser = async () => {
@@ -351,32 +353,89 @@ export const findExistingReview = async (userId:string, productId:string) =>{
 // ! Card menu functionality 
 
 // ! use fetchCardItems function in the CardButton file instead of the temp data navbar/CardButton.tsx
-export const fetchCardItems = async () =>{
+export const fetchCartItems = async () =>{
   const {userId} = await auth()
-  const card = await db.card.findFirst({
+  const cart = await db.cart.findFirst({
     where:{
       clerkId:userId?? '',
     },
     select:{
-      numItemsInCard:true
+      numItemsInCart:true
     }
   })
-  return card?.numItemsInCard || 0
+  return cart?.numItemsInCart || 0
 }
 
-const fetchProduct = async () =>{}
+// ! the following 4 functions are helper functions of the addToCardAction 
+const fetchProduct = async (productId:string) =>{
+  const product = await db.product.findUnique({
+    where:{
+      id:productId
+    },
+  });
+  if(!product){
+    throw new Error('Product not found')
+  }
+  return product
+}
 
-export const fetchOrCreateCard = async () =>{}
- 
-const updateOrCreateCardItem = async () =>{}
 
-export const updateCard = async () =>{}
+const includeProductClause = {
+  cartItems: {
+    include: {
+      product: true,
+    },
+  },
+};
+
+export const fetchOrCreateCart = async ({ 
+  userId, 
+  errorOnFailure = false 
+}: { 
+  userId: string; 
+  errorOnFailure?: boolean 
+}) => {
+  let cart = await db.cart.findFirst({
+    where:{
+      clerkId:userId
+    },
+    include: includeProductClause,
+  });
+  if(!cart && errorOnFailure){
+    throw new Error('Cart not found')
+  }
+  if(!cart){
+    cart = await db.cart.create({
+      data:{
+        clerkId:userId
+      },
+      include: includeProductClause 
+    })
+  }
+  return cart
+};
+
+const updateOrCreateCartItem = async () =>{}
+
+export const updateCart = async () =>{}
 
 // ! this function will call from /single-product/AddToCard.tsx file 
-export const addToCardAction = async (prevState:any, formData:FormData) =>{
-  return {message:'product added to card '}
+export const addToCartAction = async (prevState:unknown, formData:FormData) =>{
+  const user = await getAuthUser()
+
+  try {
+    const productId = formData.get('productId') as string
+    const amount = Number(formData.get('amount'))
+    await fetchProduct(productId)
+    // ! don't forget that every user has own card 
+    const cart = await fetchOrCreateCart({userId: user.id})
+  } catch (error) {
+    return renderError(error)
+  }
+
+  return ('/cart')
 }
 
-export const removeCardUtemAction = async () =>{}
+export const removeCartItemAction = async () =>{}
 
-export const updateCardItemAction = async () =>{}
+export const updateCartItemAction = async () =>{}

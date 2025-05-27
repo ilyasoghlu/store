@@ -2,11 +2,11 @@ import React from 'react'
 import { Button } from '../ui/button'
 import { MdOutlineShoppingCartCheckout } from "react-icons/md";
 import Link from 'next/link';
-import { fetchCardItems } from '@/utils/actions';
+import { fetchCartItems } from '@/utils/actions';
 
 async function CardButton() {
   // !This function comes from actions 
-  const numItemsInCard =await  fetchCardItems()
+  const numItemsInCard =await  fetchCartItems()
   return (
     <Button
       asChild

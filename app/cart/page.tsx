@@ -1,9 +1,9 @@
 import React from 'react'
 
-function CardPage() {
+function CartPage() {
   return (
     <div>CardPage</div>
   )
 }
 
-export default CardPage
+export default CartPage
