@@ -77,6 +77,10 @@ for ex:
 - ui
 
 - card
+  - CartItemColumns
+  - CartItemsList
+  - CartTotals
+  - ThirdCoumn
 
 - form
   - FormContainer
@@ -1091,3 +1095,10 @@ I have changed this model for my case, but my variant also  has some mistakes
 # Note: After creating the models - clear terminal, stop the server and push following command  
   - npx prisma db push 
   - this act for updating of the Environment variables 
+
+# Order Model (prisma)
+  - after creating model stop the server 
+  - then npx prisma db push 
+# Order Actions (actions)
+  - DONT USE REDRECT AFTER RETURN ! 
+  - create a helper function in the formats file - formatDate 
