@@ -31,6 +31,20 @@ async function Orders() {
             <TableHead>Date</TableHead>
           </TableRow>
         </TableHeader>
+        <TableBody>
+          {orders.map((order)=>{
+            const {id, products, orderTotal, tax, shipping, createdAt} = order
+            return (
+              <TableRow key={id}>
+                  <TableCell>{products}</TableCell>
+                  <TableCell>{formatCurrency(orderTotal)}</TableCell>
+                  <TableCell>{formatCurrency(tax)}</TableCell>
+                  <TableCell>{formatCurrency(shipping)}</TableCell>
+                  <TableCell>{formatDate(createdAt)}</TableCell>
+              </TableRow>
+            )
+          })}
+        </TableBody>
       </Table>
     </>
   )
